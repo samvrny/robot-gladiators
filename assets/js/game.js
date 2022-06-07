@@ -1,6 +1,6 @@
 var playerName = window.prompt("What is your robot's name?");
 var playerHealth = 100;
-var playerAttack = 20;
+var playerAttack = 25;
 var playerMoney = 10;
 
 console.log(playerName, playerAttack, playerHealth, playerMoney);
@@ -15,6 +15,13 @@ for(var i=0; i < enemyNames.length; i++) {
     console.log(i);
     console.log(enemyNames[i] + " is at " + i + " index");
 }
+
+//TABLE OF CONTENTS:
+//(Line 23: fight function)
+//(Line 83: startGame function)
+//(Line 115: endGame function)
+//(Line 140: shop function)
+//NOTE: See line 45 about skip not doing something intuitive to gamers.
 
 //my code for the fight
 var fight = function(enemyName) {
@@ -35,9 +42,10 @@ var fight = function(enemyName) {
             window.alert(playerName + " has decided to skip the fight. 2 coins will be deducted from you wallet");
             playerMoney = playerMoney - 2;
             console.log("playerMoney", playerMoney);
+            //shop(); PROBLEM WITH SKIP ENDING THE GAME AND NOT GOING TO SHOP
             break;
         }
-        } //end of if skip 
+    } //end of if prmptFight skip 
 
         //Subtract the value of playerAttack from the value of enemyHealth and use that result to update the value in the enemyHealth variable
         enemyHealth = enemyHealth - playerAttack
@@ -50,6 +58,8 @@ var fight = function(enemyName) {
             window.alert(enemyName + " has died! :)");
             //award player money for winning
             playerMoney = playerMoney + 20;
+            window.alert("You have gained 20 coins from your battle. Your wallet now has " + playerMoney + " coins.");
+            console.log("player money is " +playerMoney);
             break;
         }
         else {
@@ -77,7 +87,7 @@ var fight = function(enemyName) {
 var startGame = function() {
     //reset player stats
     playerHealth = 100;
-    playerAttack = 20;
+    playerAttack = 25;
     playerMoney = 10;
     //fight loop
     for(var i = 0; i < enemyNames.length; i++) {
@@ -86,21 +96,30 @@ var startGame = function() {
             var pickedEnemyName = enemyNames[i];
             enemyHealth = 50;
             fight(pickedEnemyName);
+
+            //if we're not at the last enemy in the array, and player still has health, we go to the shop
+            if (playerHealth > 0 && i < enemyNames.length - 1) {
+                //ask player if they'd like to enter the store
+                var storeConfirm = window.confirm("The fight is over, would you like to visit the shop before the next round?");
+                if (storeConfirm) {
+                    shop();
+                }
+            } //end of (line 91)
         }
         else {
             window.alert("Your robot has died in battle. Game over. :(");
             break;
         }
-    } //end of fight loop
+    } //end of fight loop (line 83)
     //after the loop ends, player is either out of health or enemies to fight
     endGame();
-} //end of start game function
+} //end of start game function (line 77)
 
 //function to end the entire game
 var endGame = function() {
     //if player is still alive, player wins!
     if (playerHealth > 0) {
-        window.alert("Great job, you've survived the game! 20 coins have been added to your wallet. Your wallet now has " + playerMoney + " coins.");
+        window.alert("Great job, you've survived the game!");
     }
 
     else {
@@ -117,7 +136,65 @@ var endGame = function() {
         else {
             window.alert("Thank you for playing. See you again soon! :)");
         }
-}//end of end game function
+}//end of end game function (line 106)
+
+//shop function
+var shop = function() {
+    console.log(playerName + " entered the shop.");
+    window.alert(playerName + " entered the shop");
+    //ask the player what they'd like to do in the shop
+    var shopOptionPrompt = window.prompt(
+        "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the shop? (Please enter one: REFILL, UPGRADE, or LEAVE)"
+    );
+
+    switch (shopOptionPrompt) {
+        //for the refill of health
+        case "refill":
+        case "REFILL":
+        case "Refill":
+            if (playerMoney >= 7) {
+                playerHealth = playerHealth + 20;
+                playerMoney = playerMoney - 7;
+                window.alert("Refilling " + playerName + "'s health by 20 for 7 coins. You now have " + playerMoney + " in your wallet."); //add this sort of code to every part of the switch cases to get the proper window alerts about how much money is left
+            }
+            else {
+                window.alert("You don't have enough money!");
+            }
+
+        break;
+
+        //for upgrading attack
+        case "upgrade":
+        case "UPGRADE":
+        case "Upgrade":
+            if (playerMoney >= 7) {
+                window.alert("Upgrading " + playerName + "'s attack by 6 for 7 coins");
+                playerAttack = playerAttack + 6;
+                playerMoney = playerMoney -7;
+            }
+            else {
+                window.alert("You don't have enough money");
+            }
+
+        break;
+
+        //for leaving the shop
+        case "leave":
+        case "LEAVE":
+        case "Leave":
+            window.alert(playerName + " is leaving the shop");
+
+        break;
+
+        //if inproper input is given
+        default:
+            window.alert("You did not pick a valid option. Try again.");
+            shop();
+
+        break;
+
+    }// end of switch for shop (line 140)
+} //end shop function (line 132)
 
 //call to start game function (line 76)
 startGame();
