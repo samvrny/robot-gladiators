@@ -16,13 +16,7 @@ for(var i=0; i < enemyNames.length; i++) {
     console.log(enemyNames[i] + " is at " + i + " index");
 }
 
-// Game states
-// "WIN" - Player robot has defeated all enemy-robots
-//      * Fight all enemy robots
-//      * Defeat each enemy robot
-// "LOSE" - Player robot's health is zero or less
-
-
+//my code for the fight
 var fight = function(enemyName) {
 
     //repeat and execute as long as the enemy-robot is alive
@@ -76,20 +70,54 @@ var fight = function(enemyName) {
         else {
             window.alert(playerName + " still has " +playerHealth + " health left.");
         }
+    } //end of while loop (line 23)
+} //end of fight function (line 20)
 
-    } //end of while loop
-} //end of fight function
+//start game function
+var startGame = function() {
+    //reset player stats
+    playerHealth = 100;
+    playerAttack = 20;
+    playerMoney = 10;
+    //fight loop
+    for(var i = 0; i < enemyNames.length; i++) {
+        if(playerHealth > 0) {
+            window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
+            var pickedEnemyName = enemyNames[i];
+            enemyHealth = 50;
+            fight(pickedEnemyName);
+        }
+        else {
+            window.alert("Your robot has died in battle. Game over. :(");
+            break;
+        }
+    } //end of fight loop
+    //after the loop ends, player is either out of health or enemies to fight
+    endGame();
+} //end of start game function
 
-
-for(var i = 0; i < enemyNames.length; i++) {
-    if(playerHealth > 0) {
-        window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
-    var pickedEnemyName = enemyNames[i];
-    enemyHealth = 50;
-    fight(pickedEnemyName);
+//function to end the entire game
+var endGame = function() {
+    //if player is still alive, player wins!
+    if (playerHealth > 0) {
+        window.alert("Great job, you've survived the game! 20 coins have been added to your wallet. Your wallet now has " + playerMoney + " coins.");
     }
+
     else {
-        window.alert("Your robot has died in battle. Game over. :(");
-        break;
+        window.alert("Your robot has died in battle.");
     }
-}
+
+    //local variable
+    var playAgainConfirm = window.confirm("Would you like to play again?");
+
+        if (playAgainConfirm) {
+            startGame();
+        }
+
+        else {
+            window.alert("Thank you for playing. See you again soon! :)");
+        }
+}//end of end game function
+
+//call to start game function (line 76)
+startGame();
