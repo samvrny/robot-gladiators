@@ -11,12 +11,6 @@ var enemyAttack = 12;
 
 console.log(enemyNames, enemyHealth, enemyAttack);
 
-//TABLE OF CONTENTS:
-//(Line 23: fight function)
-//(Line 83: startGame function)
-//(Line 115: endGame function)
-//(Line 140: shop function)
-
 //my code for the fight
 var fight = function(enemyName) {
 
@@ -33,15 +27,17 @@ var fight = function(enemyName) {
         var confirmSkip = window.confirm("Are you sure you'd like to skip the fight?");
         //if skip is confirmed
         if (confirmSkip) {
-            window.alert(playerName + " has decided to skip the fight. 2 coins will be deducted from you wallet");
-            playerMoney = playerMoney - 2;
+            window.alert(playerName + " has decided to skip the fight. 5 coins will be deducted from you wallet");
+            playerMoney = Math.max(0, playerMoney - 5);
             console.log("playerMoney", playerMoney);
             break;
         }
     } //end of if prmptFight skip 
 
+        // generate random damage value based on players attack power
+        var damage = randomNumber(playerAttack - 3, playerAttack);
         //Subtract the value of playerAttack from the value of enemyHealth and use that result to update the value in the enemyHealth variable
-        enemyHealth = enemyHealth - playerAttack
+        enemyHealth = Math.max(0, enemyHealth - damage);
         console.log(
             playerName + " attacked " + enemyName + ". " +enemyName + " now has " + enemyHealth + " health remaining."
         );
@@ -52,15 +48,17 @@ var fight = function(enemyName) {
             //award player money for winning
             playerMoney = playerMoney + 20;
             window.alert("You have gained 20 coins from your battle. Your wallet now has " + playerMoney + " coins.");
-            console.log("player money is " +playerMoney);
+            console.log("player money is " + playerMoney);
             break;
         }
         else {
             window.alert(enemyName + " still has " + enemyHealth + " health left.");
         }
-
+        
+        //generate random damage value based on enemys attack power
+        var damage = randomNumber(enemyAttack - 3, enemyAttack);
         //Subtract the value of enemyAttack from the value of playerHealth and use that result to update the value in the playerHealth variable
-        playerHealth = playerHealth - enemyAttack;
+        playerHealth = Math.max(0, playerHealth - damage);
         console.log(
             enemyName + " attacked " + playerName + ". " +playerName + " now has " + playerHealth + " health remaining."
         );
@@ -73,8 +71,8 @@ var fight = function(enemyName) {
         else {
             window.alert(playerName + " still has " +playerHealth + " health left.");
         }
-    } //end of while loop (line 23)
-} //end of fight function (line 20)
+    } //end of while loop (line 18)
+} //end of fight function (line 15)
 
 //start game function
 var startGame = function() {
@@ -82,12 +80,16 @@ var startGame = function() {
     playerHealth = 100;
     playerAttack = 25;
     playerMoney = 10;
+
     //fight loop
     for(var i = 0; i < enemyNames.length; i++) {
         if(playerHealth > 0) {
             window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
+            //pick a new enemy to fight based on array
             var pickedEnemyName = enemyNames[i];
-            enemyHealth = 50;
+            //reset enemy health before start of round
+            enemyHealth = randomNumber(40, 60);
+            //call to fight function (line 15)
             fight(pickedEnemyName);
 
             //if we're not at the last enemy in the array, and player still has health, we go to the shop
@@ -97,16 +99,16 @@ var startGame = function() {
                 if (storeConfirm) {
                     shop();
                 }
-            } //end of (line 91)
-        }
+            } //end of (line 96)
+        } //end of (line 86)
         else {
             window.alert("Your robot has died in battle. Game over. :(");
             break;
         }
-    } //end of fight loop (line 83)
+    } //end of fight loop (line 85)
     //after the loop ends, player is either out of health or enemies to fight
     endGame();
-} //end of start game function (line 77)
+} //end of start game function (line 78)
 
 //function to end the entire game
 var endGame = function() {
@@ -129,7 +131,7 @@ var endGame = function() {
         else {
             window.alert("Thank you for playing. See you again soon! :)");
         }
-}//end of end game function (line 106)
+}//end of end game function (line 114)
 
 //shop function
 var shop = function() {
@@ -186,8 +188,15 @@ var shop = function() {
 
         break;
 
-    }// end of switch for shop (line 140)
-} //end shop function (line 132)
+    }// end of switch for shop (line 145)
+} //end shop function (line 137)
 
-//call to start game function; starts the game when page first loads (line 76)
+//function to generate a random number
+var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min +1) + min);
+
+    return value;
+}; //end random number function (line 195)
+
+//call to start game function (line 78)
 startGame();
