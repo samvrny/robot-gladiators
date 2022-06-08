@@ -10,18 +10,12 @@ var enemyHealth = 50;
 var enemyAttack = 12;
 
 console.log(enemyNames, enemyHealth, enemyAttack);
-for(var i=0; i < enemyNames.length; i++) {
-    console.log(enemyNames[i]);
-    console.log(i);
-    console.log(enemyNames[i] + " is at " + i + " index");
-}
 
 //TABLE OF CONTENTS:
 //(Line 23: fight function)
 //(Line 83: startGame function)
 //(Line 115: endGame function)
 //(Line 140: shop function)
-//NOTE: See line 45 about skip not doing something intuitive to gamers.
 
 //my code for the fight
 var fight = function(enemyName) {
@@ -42,7 +36,6 @@ var fight = function(enemyName) {
             window.alert(playerName + " has decided to skip the fight. 2 coins will be deducted from you wallet");
             playerMoney = playerMoney - 2;
             console.log("playerMoney", playerMoney);
-            //shop(); PROBLEM WITH SKIP ENDING THE GAME AND NOT GOING TO SHOP
             break;
         }
     } //end of if prmptFight skip 
@@ -196,5 +189,5 @@ var shop = function() {
     }// end of switch for shop (line 140)
 } //end shop function (line 132)
 
-//call to start game function (line 76)
+//call to start game function; starts the game when page first loads (line 76)
 startGame();
