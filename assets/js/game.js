@@ -174,7 +174,7 @@ var playerInfo = {
     attack: 20,
     money: 10,
     reset: function() {
-        this.health = 100; //this is shorthand for saying this.health = this.health +20
+        this.health = 100; //this is shorthand for saying this.health = 100
         this.money = 10;
         this.attack = 20;
     },
