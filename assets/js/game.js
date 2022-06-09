@@ -1,3 +1,27 @@
+var fightOrSkip = function() {
+    var promptFight = window.prompt("Would you like the FIGHT or SKIP this battle? Enter FIGHT or SKIP to choose.");
+
+    //Conditional recursive function call
+    if (!promptFight) {
+        window.alert("You need to provide a valid answer! Please try again");
+        return fightOrSkip();
+    }
+    
+    promptFight = promptFight.toLowerCase();
+    if (promptFight === "skip") {
+        var confirmSkip = window.confirm("Are you sure you'd like to skip the round?");
+
+        if (confirmSkip) {
+            window.alert(playerInfo.name + " has decided to skip this round of fighting");
+            playerInfo.money = Math.max(0, playerInfo.money -5);
+            
+            return true;
+        }
+    }
+
+    return false;
+}//end of fightOrSkip function
+
 //my code for the fight
 var fight = function(enemy) {
 
@@ -5,21 +29,9 @@ var fight = function(enemy) {
     while(playerInfo.health > 0 && enemy.health > 0) {
 
     //Ask the player if they would like to fight or skip the round
-    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? enter 'FIGHT or 'SKIP' to choose.");
-    console.log(promptFight);
-    
-    if (promptFight === "skip" || promptFight === "SKIP" || promptFight === "Skip") {
-        
-        //confirm player wants to skip
-        var confirmSkip = window.confirm("Are you sure you'd like to skip the fight?");
-        //if skip is confirmed
-        if (confirmSkip) {
-            window.alert(playerInfo.name + " has decided to skip the fight. 5 coins will be deducted from you wallet");
-            playerInfo.money = Math.max(0, playerInfo.money - 5);
-            console.log("playerInfo.money", playerInfo.money);
+        if (fightOrSkip()) {
             break;
         }
-    } //end of if prmptFight skip 
 
         // generate random damage value based on players attack power
         var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
