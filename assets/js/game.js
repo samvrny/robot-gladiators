@@ -25,8 +25,17 @@ var fightOrSkip = function() {
 //my code for the fight
 var fight = function(enemy) {
 
+    //keep track of who goes first
+    var isPlayerTurn = true;
+    //randomly change turn order
+    if (Math.random() > 0.5) {
+        isPlayerTurn = false;
+    }
+
     //repeat and execute as long as the enemy-robot is alive
     while(playerInfo.health > 0 && enemy.health > 0) {
+
+        if(isPlayerTurn) {
 
     //Ask the player if they would like to fight or skip the round
         if (fightOrSkip()) {
@@ -53,7 +62,9 @@ var fight = function(enemy) {
         else {
             window.alert(enemy.name + " still has " + enemy.health + " health left.");
         }
-        
+
+        } //end of "if player health" if conditional statement"
+        else {
         //generate random damage value based on enemys attack power
         var damage = randomNumber(enemy.attack - 3, enemy.attack);
         //Subtract the value of enemy.attack from the value of playerInfo.health and use that result to update the value in the playerInfo.health variable
@@ -70,6 +81,10 @@ var fight = function(enemy) {
         else {
             window.alert(playerInfo.name + " still has " +playerInfo.health + " health left.");
         }
+    } //end of "else" part of isPlayerTurn conditional statement
+    //switch turn order for next round
+    debugger;
+    isPlayerTurn = !isPlayerTurn;
     } //end of while loop
 } //end of fight function
 
