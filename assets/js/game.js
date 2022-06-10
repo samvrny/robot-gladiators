@@ -25,8 +25,17 @@ var fightOrSkip = function() {
 //my code for the fight
 var fight = function(enemy) {
 
+    //keep track of who goes first
+    var isPlayerTurn = true;
+    //randomly change turn order
+    if (Math.random() > 0.5) {
+        isPlayerTurn = false;
+    }
+
     //repeat and execute as long as the enemy-robot is alive
     while(playerInfo.health > 0 && enemy.health > 0) {
+
+        if(isPlayerTurn) {
 
     //Ask the player if they would like to fight or skip the round
         if (fightOrSkip()) {
@@ -53,7 +62,9 @@ var fight = function(enemy) {
         else {
             window.alert(enemy.name + " still has " + enemy.health + " health left.");
         }
-        
+
+        } //end of "if player health" if conditional statement"
+        else {
         //generate random damage value based on enemys attack power
         var damage = randomNumber(enemy.attack - 3, enemy.attack);
         //Subtract the value of enemy.attack from the value of playerInfo.health and use that result to update the value in the playerInfo.health variable
@@ -70,6 +81,10 @@ var fight = function(enemy) {
         else {
             window.alert(playerInfo.name + " still has " +playerInfo.health + " health left.");
         }
+    } //end of "else" part of isPlayerTurn conditional statement
+    //switch turn order for next round
+    debugger;
+    isPlayerTurn = !isPlayerTurn;
     } //end of while loop
 } //end of fight function
 
@@ -136,28 +151,24 @@ var shop = function() {
     window.alert(playerInfo.name + " entered the shop");
     //ask the player what they'd like to do in the shop
     var shopOptionPrompt = window.prompt(
-        "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the shop? (Please enter one: REFILL, UPGRADE, or LEAVE)"
+        "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the shop? (Please enter 1 for REFILL, 2 for UPGRADE, or 3 to LEAVE)"
     );
+
+    shopOptionPrompt = parseInt(shopOptionPrompt);
 
     switch (shopOptionPrompt) {
         //for the refill of health
-        case "refill":
-        case "REFILL":
-        case "Refill":
+        case 1:
             playerInfo.refillHealth();
         break;
 
         //for upgrading attack
-        case "upgrade":
-        case "UPGRADE":
-        case "Upgrade":
+        case 2:
             playerInfo.upgradeAttack();
         break;
 
         //for leaving the shop
-        case "leave":
-        case "LEAVE":
-        case "Leave":
+        case 3:
             window.alert(playerInfo.name + " is leaving the shop");
 
         break;
