@@ -20,7 +20,7 @@ var fightOrSkip = function() {
     }
 
     return false;
-}//end of fightOrSkip function
+};//end of fightOrSkip function
 
 //my code for the fight
 var fight = function(enemy) {
@@ -83,10 +83,9 @@ var fight = function(enemy) {
         }
     } //end of "else" part of isPlayerTurn conditional statement
     //switch turn order for next round
-    debugger;
     isPlayerTurn = !isPlayerTurn;
     } //end of while loop
-} //end of fight function
+}; //end of fight function
 
 //start game function
 var startGame = function() {
@@ -124,16 +123,27 @@ var startGame = function() {
 
 //function to end the entire game
 var endGame = function() {
-    //if player is still alive, player wins!
-    if (playerInfo.health > 0) {
-        window.alert("Great job, you've survived the game!");
+    window.alert("The game has ended. Let's see how you did!");
+
+    //check localStorage for ghigh score, if it's not there use 0
+    var highScore = localStorage.getItem("highscore")
+    if (highScore === null) {
+        highScore = 0;
     }
 
-    else {
-        window.alert("Your robot has died in battle.");
+    //if player has more money than the high score, player has new high score!
+    if (playerInfo.money > highScore) {
+        localStorage.setItem("highscore", playerInfo.money);
+        localStorage.setItem("name", playerInfo.name);
+    
+
+    alert(playerInfo.name + " now has the high score of " + playerInfo.money + "!");
     }
 
-    //local variable
+    else { 
+        alert(playerInfo.name + " did not beat the high score of " + highScore + ". Better luck next time!");
+    }
+    //local variable; Ask the player if they'd like to play again
     var playAgainConfirm = window.confirm("Would you like to play again?");
 
         if (playAgainConfirm) {
@@ -143,7 +153,7 @@ var endGame = function() {
         else {
             window.alert("Thank you for playing. See you again soon! :)");
         }
-}//end of end game function
+};//end of end game function
 
 //shop function
 var shop = function() {
@@ -181,7 +191,7 @@ var shop = function() {
         break;
 
     }// end of switch for shop
-} //end shop function
+}; //end shop function
 
 //function to generate a random number
 var randomNumber = function(min, max) {
@@ -234,7 +244,7 @@ var playerInfo = {
             window.alert("You don't have enough money!");
         }
     }
-}
+};
 
 console.log(playerInfo.name, playerInfo.attack, playerInfo.health, playerInfo.money);
 
